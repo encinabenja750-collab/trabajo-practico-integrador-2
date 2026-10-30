@@ -6,7 +6,7 @@ export const HomePage = () => {
     data: articles,
     isLoading,
     error,
-  } = useFetch("http://localhost:3000/api/articles");
+  } = useFetch(`${import.meta.env.VITE_API_URL}/api/articles`);
 
   return (
     <div className="min-h-screen bg-gray-50">
