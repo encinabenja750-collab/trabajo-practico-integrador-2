@@ -1,8 +1,33 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 export const Navbar = () => {
-  const handleLogout = () => {
-    console.log("Ejecutando proceso de Logout...");
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      const resp = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/auth/logout`,
+        {
+          method: "POST",
+          credentials: "include",
+        },
+      );
+
+      if (!resp.ok) {
+        console.warn(
+          "El servidor devolvió un error al cerrar sesión, igual procederemos localmente.",
+        );
+      }
+    } catch (error) {
+      console.error(
+        "Error de red al intentar hacer logout en el servidor:",
+        error,
+      );
+    } finally {
+      localStorage.removeItem("isLogged");
+
+      navigate("/login");
+    }
   };
 
   return (
